@@ -1,14 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%=recipie.title%> </title>
-</head>
-<body>
+<% layout('./layouts/boilerplate')%> 
+        
         <h1><%=recipie.title%></h1>
         <h2>Ingredients : <%=recipie.ingredients%></h2>
+        <img src="<%=recipie.image%>">
         <h3>Recipe Instructions : </h3>
         <p><%=recipie.instructions%> </p>
-</body>
-</html>
+        <footer> 
+            <a href="/recipe">All recipes</a>
+            <a href="/recipe/<%=recipie._id%>/edit">Edit recipe</a>
+      
+            <form action="/recipe/<%=recipie._id%>?_method=DELETE" method="POST">       <button value="delete">Delete</button></form>
+        </footer>

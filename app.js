@@ -9,10 +9,14 @@ const Recipe = require('./models/Recipe')
  .catch((e)=>{ 
     console.log(e) 
  })
-
-const app = express() 
+const methodOverride = require('method-override')
+const app = express()
+const engine =  require('ejs-mate')
 app.set('view engine','ejs')
+app.use(express.urlencoded({extended:true}))
 const path = require('path')
+app.engine('ejs',engine)
+app.use(methodOverride('_method'))
 app.set('views',path.join(__dirname,'views'))
 app.get('/',(req,res)=>{ 
     res.render("home")
@@ -21,10 +25,26 @@ app.get('/recipe',async(req,res)=>{
     const recipies = await Recipe.find({})
     res.render('Recipie/recipies',{recipies})
 })
+
+app.get('/recipe/new',async(req,res)=>{ 
+    res.render('Recipie/new')
+})
+app.post('/recipe',async(req,res)=>{ 
+   const recipe = new Recipe(req.body.recipe)
+   await recipe.save()
+   res.redirect(`/recipe/${recipe._id}`)     
+})
 app.get('/recipe/:id',async(req,res)=>{ 
     const {id} = req.params 
     const recipie = await Recipe.findById(id)
     res.render('Recipie/show',{recipie})
+})
+app.get('/recipe/:id/edit',async(req,res)=>{ 
+    const {id} = req.params 
+    const recipe = await Recipe.findById(id)
+    
+    
+    res.render('Recipie/edit',{recipe})
 })
 app.get('/newRecipe',async(req,res)=>{ 
   const recipe =   new Recipe({ 
@@ -36,7 +56,16 @@ app.get('/newRecipe',async(req,res)=>{
           await recipe.save() 
           res.send(recipe)
 })
-
+app.put('/recipe/:id',async(req,res)=>{ 
+    const {id} = req.params 
+   const recipe =await  Recipe.findByIdAndUpdate(id,{...req.body.recipe})
+   res.redirect(`/recipe/${recipe._id}`)
+})
+app.delete('/recipe/:id',async(req,res)=>{ 
+    const {id} = req.params 
+    await Recipe.findByIdAndDelete(id)
+    res.redirect('/recipe')
+})
 app.listen(3000,()=>{ 
     console.log("listening on port 3000")
 })

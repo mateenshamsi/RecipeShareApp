@@ -1,0 +1,16 @@
+<% layout('./layouts/boilerplate')%> 
+    <form action="/recipe/<%=recipe._id%>?_method=PUT" method="POST">
+    <label for="title">Title</label>
+        <input type="text" name="recipe[title]" value="<%=recipe.title%>" >
+        </div>
+        <div> 
+        <label for="ingredients">Ingredients</label>
+        <input type="text" name="recipe[ingredients]"  value="<%=recipe.ingredients%>">
+        </div>
+        <label for="instructions">Instructions</label>
+        
+        <div> 
+
+            <textarea name="recipe[instructions]" rows="10" cols="45"><%=recipe.instructions%></textarea>
+        </div>
+        <button value="submit">Edit</button>

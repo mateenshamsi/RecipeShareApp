@@ -1,13 +1,23 @@
 <% layout('./layouts/boilerplate')%> 
-        
-        <h1><%=recipie.title%></h1>
-        <h2>Ingredients : <%=recipie.ingredients%></h2>
-        <img src="<%=recipie.image%>">
-        <h3>Recipe Instructions : </h3>
-        <p><%=recipie.instructions%> </p>
-        <footer> 
-            <a href="/recipe">All recipes</a>
-            <a href="/recipe/<%=recipie._id%>/edit">Edit recipe</a>
-      
-            <form action="/recipe/<%=recipie._id%>?_method=DELETE" method="POST">       <button value="delete">Delete</button></form>
-        </footer>
+<div class="row mt-5"> 
+    <div class="col-6 offset-3"> 
+        <div class="card" >
+            <img src="<%=recipie.image%>" class="card-img-top" alt="Image">
+            <div class="card-body">
+              <h5 class="card-title"><%=recipie.title%></h5>
+              <p class="card-text"><%=recipie.description%></p>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item"><h5> Ingredients : </h5> <%=recipie.ingredients%> </li>
+              <li class="list-group-item"> <h5> Instructions :</h5> <%=recipie.instructions%></li>
+              
+            </ul>
+            <div class="card-body">
+                <a href="/recipe" class="btn btn-success">All recipes</a>
+                <a href="/recipe/<%=recipie._id%>/edit" class="btn  btn-warning">Edit recipe</a>
+          
+                <form action="/recipe/<%=recipie._id%>?_method=DELETE"  class="d-inline" method="POST"><button class="btn btn-danger">Delete</button> </form> 
+            </div>
+          </div>
+    </div>
+</div>

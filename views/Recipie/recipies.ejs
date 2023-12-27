@@ -5,6 +5,25 @@
     <a href="/recipe/new">Add Recipe</a>
     <ul>
         <%for (let r of recipies) {%> 
-                <li><a href="/recipe/<%=r._id%>"><%=r.title%></a></li>
+            <div class="card mb-2 h-10" >
+                <div class="row">  
+                <div class="col-md-4 ">
+                    <img style="width:400px;" src="<%=r.image%>">
+                </div>
+                <div class="col-md-8"> 
+                    <div class="card-body" style="margin-top:15px ;"> 
+                        <h5 class="card-title"> 
+                            <%=r.title%>
+                        </h5>
+                        <p>
+                            <%=r.description%> 
+                        </p>
+                       
+                        <a href="recipe/<%=r._id%>" class="btn btn-primary">View <%=r.title%> Recipe</a>
+                    </div>
+                    
+                </div> 
+                </div>
+                </div>
             <%}%> 
     </ul> 

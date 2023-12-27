@@ -12,6 +12,7 @@ const recipeSchema = new mongoose.Schema({
         type:String , 
         required:true 
     },
-    image: String 
+    image: String ,
+    description:String 
 })
 module.exports = mongoose.model('Recipe',recipeSchema)

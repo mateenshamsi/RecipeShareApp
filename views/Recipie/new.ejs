@@ -1,29 +1,32 @@
 <% layout('./layouts/boilerplate')%> 
 
     <div class="row">
-        <h1 class="text-center">New Campground</h1>
+        <h1 class="text-center">New Recipe</h1>
         <div class="col-6 offset-3">
-            <form action="/recipe" method="POST">
+            <form action="/recipe" class="was-validated novalidate"   method="POST">
                 <div class="mb-3"> 
                 <label class="form-label" for="title">Title</label>
-                <input type="text" class="form-control" name="recipe[title]" >
+                <input type="text" class="form-control" required name="recipe[title]" >
+                <div class="valid-feedback"> 
+                    Looks Good !!
+                </div>
                 </div>
                 <div class="mb-3"> 
                     <label for="desc" class="form-label">Description</label>
-                    <textarea name="recipe[description]" class="form-control"  > </textarea>
+                    <textarea  required  name="recipe[description]"  class="form-control"  > </textarea>
                 </div>
              
                 <div class="mb-3"> 
                 <label for="ingredients" class="form-label ">Ingredients</label>
-                <input type="text" class="form-control" name="recipe[ingredients]" >
+                <input required type="text" class="form-control" name="recipe[ingredients]" >
                 </div>
                 <div class="mb-3"> 
                     <label for="image" class="form-label ">Image URL</label>
-                    <input type="text" class="form-control" name="recipe[image]" >
+                    <input type="text" required class="form-control" name="recipe[image]" >
                 </div>
                 <div class="mb-3"> 
                 <label for="instructions" class="form-label">Instructions</label>
-                <textarea name="recipe[instructions]" class="form-control"></textarea>
+                <textarea name="recipe[instructions]" required class="form-control"></textarea>
                 </div>
                 <button class="btn btn-success mt-2" type="submit">Submit</button>
             </form>

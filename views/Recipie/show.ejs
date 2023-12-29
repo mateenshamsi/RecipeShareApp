@@ -1,6 +1,6 @@
 <% layout('./layouts/boilerplate')%> 
-<div class="row mt-5"> 
-    <div class="col-6 offset-3"> 
+<div class="row mt-5" style="margin-left:5px;"> 
+    <div class="col-6 "> 
         <div class="card" >
             <img src="<%=recipie.image%>" class="card-img-top" alt="Image">
             <div class="card-body">
@@ -19,5 +19,40 @@
                 <form action="/recipe/<%=recipie._id%>?_method=DELETE"  class="d-inline" method="POST"><button class="btn btn-danger">Delete</button> </form> 
             </div>
           </div>
+           
+    </div>
+    <div class="col-6">
+      <h2>Leave a review</h2>
+          <form action="/recipe/<%=recipie._id%>/reviews" class="validated-form was-validated novalidate" method="POST">
+            <div class="mb-3">
+              <label for="rating">Rating : </label>
+              <input type="range" id="rating" min="1" max="5"  name="rating">
+            </div>
+            <div> 
+              <label for="body">Reviews</label>
+              <br>
+            <textarea rows="3" class="form-control mb-3" required cols="50" id="body" name="body"></textarea> 
+            <button class="btn btn-success mt-2" type="submit">Submit</button>
+          
+          </form> 
+          
+          <h2>Reviews</h2>
+           
+          <% for (let review of recipie.reviews){ %> 
+            <div class="card mb-3">
+            <div class="card-body ">
+             
+            <p>Rating: <%=review.rating%> </p>
+
+              
+            <p>Review : <%=review.body%> </p>
+            <form action="/recipe/<%=recipie._id%>/reviews/<%=review._id%>?_method=DELETE" method="POST">
+              <button>Delete</button>
+            </form>
+
+          </div>
+        </div>
+
+          <%}%>
     </div>
 </div>

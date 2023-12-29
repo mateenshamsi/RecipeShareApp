@@ -13,6 +13,13 @@ const recipeSchema = new mongoose.Schema({
         required:true 
     },
     image: String ,
-    description:String 
+    description:{
+        type: String,
+        required:true 
+    }  ,
+    reviews:[{ 
+        type:mongoose.Schema.Types.ObjectId , 
+        ref: 'Review'
+    }]
 })
 module.exports = mongoose.model('Recipe',recipeSchema)

@@ -2,10 +2,13 @@ const express = require('express')
 const mongoose = require('mongoose') 
 const ExpressError = require('./utils/ExpressError') 
 const catchAsync = require('./utils/catchAsync')
-const recipeRoute = require('./routes/recipeRoute') 
-
+const reviewRoute = require('./routes/reviewRoute') 
+const recipeRoute = require('./routes/recipeRoute')
 const Recipe = require('./models/Recipe')
 const Review  = require('./models/Review')
+const flash = require('connect-flash')
+
+const session = require('express-session')
  mongoose.connect('mongodb://127.0.0.1:27017/Recipe')
  .then(()=>{ 
     console.log("Mongo Connected")
@@ -16,7 +19,18 @@ const Review  = require('./models/Review')
 const methodOverride = require('method-override')
 const app = express()
 const engine =  require('ejs-mate')
-
+const sessionConfig = { 
+    secret:"thisisasecret",
+    resave:false,
+    saveUninitialized:true,
+    cookie:{ 
+        expires:Date.now()*1000*60*60*24*7,
+        httpOnly:true,
+        maxAge:1000*60*60*24*7
+    }
+}
+app.use(session(sessionConfig))
+app.use(flash())
 app.set('view engine','ejs')
 app.use(express.urlencoded({extended:true}))
 const path = require('path')
@@ -24,10 +38,18 @@ const path = require('path')
 app.engine('ejs',engine)
 app.use(methodOverride('_method'))
 app.set('views',path.join(__dirname,'views'))
+app.use(express.static(path.join(__dirname,'public')))
 app.get('/',(req,res)=>{ 
     res.render("home")
 })
-
+app.use((req,res,next)=>{ 
+    res.locals.success = req.flash('success')
+    res.locals.error = req.flash('error')
+    
+    next()
+}) 
+app.use('/recipe',recipeRoute)
+app.use('/',reviewRoute)
 app.get('/newRecipe',catchAsync(async(req,res)=>{ 
   const recipe =   new Recipe({ 
         title: 'Spaghetti Bolognese',
@@ -38,23 +60,6 @@ app.get('/newRecipe',catchAsync(async(req,res)=>{
           await recipe.save() 
           res.send(recipe)
 })) 
-app.use('/recipe',recipeRoute)
-app.post('/recipe/:id/reviews',catchAsync(async(req,res)=>{ 
-   const {id} = req.params 
-    const recipe = await Recipe.findById(id)
-    const review = new Review(req.body) 
-    recipe.reviews.push(review)
-    await   review.save()
-
-    await  recipe.save()
-    res.redirect(`/recipe/${recipe._id}`) 
-}))
-app.delete('/recipe/:id/reviews/:reviewId',catchAsync(async(req,res)=>{ 
-    const {id,reviewId} = req.params
-     await Recipe.findByIdAndUpdate(id,{$pull:{reviews:reviewId}})
-    await Review.findByIdAndDelete(reviewId) 
-    res.redirect(`/recipe/${id}`) 
-}))
 app.all('*',(req,res,next)=>{ 
     next(new ExpressError(404,"Not Found"))  
 })

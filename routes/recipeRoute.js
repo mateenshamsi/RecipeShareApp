@@ -9,12 +9,14 @@ route.get('/',catchAsync(async(req,res,next)=>{
 })) 
 
 route.get('/new',catchAsync(async(req,res)=>{ 
+    
     res.render('Recipie/new')
 })) 
 route.post('/',catchAsync(async(req,res,next)=>{
-  
-     const recipe = new Recipe(req.body)
+     if(!req.body.recipe) throw new ExpressError(404,"Not valid")
+      const recipe = new Recipe(req.body.recipe)
         await recipe.save()
+        req.flash('success','Successfully made a new recipe')
         res.redirect(`/recipe/${recipe._id}`)      
 
 })) 
@@ -36,11 +38,15 @@ route.get('/:id/edit',catchAsync(async(req,res)=>{
 route.put('/:id',catchAsync(async(req,res)=>{ 
     const {id} = req.params 
    const recipe =await  Recipe.findByIdAndUpdate(id,{...req.body.recipe})
+   req.flash('success',`Successfully edited  ${recipe.title} recipe`)
+  
    res.redirect(`/recipe/${recipe._id}`)
 }))
 route.delete('/:id',catchAsync(async(req,res)=>{ 
     const {id} = req.params 
     await Recipe.findByIdAndDelete(id)
+    req.flash('success',`Successfully deleted  recipe`)
+  
     res.redirect('/recipe')
 })) 
 module.exports = route 

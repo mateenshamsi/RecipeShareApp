@@ -23,7 +23,11 @@ route.post('/',catchAsync(async(req,res,next)=>{
 route.get('/:id',catchAsync(async(req,res)=>{ 
     const {id} = req.params 
     const recipie = await Recipe.findById(id).populate('reviews')
-
+    if(!recipie)
+    { 
+        req.flash('error','Can not find Recipie') 
+        res.redirect('/recipe')
+    }
 
     res.render('Recipie/show',{recipie})
 })) 
@@ -39,7 +43,11 @@ route.put('/:id',catchAsync(async(req,res)=>{
     const {id} = req.params 
    const recipe =await  Recipe.findByIdAndUpdate(id,{...req.body.recipe})
    req.flash('success',`Successfully edited  ${recipe.title} recipe`)
-  
+   if(!recipie)
+    { 
+        req.flash('error','Can not edit Recipie') 
+        res.redirect('/recipe')
+    }
    res.redirect(`/recipe/${recipe._id}`)
 }))
 route.delete('/:id',catchAsync(async(req,res)=>{ 

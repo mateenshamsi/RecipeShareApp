@@ -7,9 +7,12 @@ const recipeRoute = require('./routes/recipeRoute')
 const Recipe = require('./models/Recipe')
 const Review  = require('./models/Review')
 const flash = require('connect-flash')
-
+const passport = require('passport')
+const LocalStrategy = require('passport-local')
 const session = require('express-session')
- mongoose.connect('mongodb://127.0.0.1:27017/Recipe')
+const User = require('./models/User')
+const userRoute = require('./routes/userRoute')
+mongoose.connect('mongodb://127.0.0.1:27017/Recipe')
  .then(()=>{ 
     console.log("Mongo Connected")
  })
@@ -34,7 +37,11 @@ app.use(flash())
 app.set('view engine','ejs')
 app.use(express.urlencoded({extended:true}))
 const path = require('path')
-
+app.use(passport.initialize())
+app.use(passport.session())
+passport.use(new LocalStrategy(User.authenticate()))
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 app.engine('ejs',engine)
 app.use(methodOverride('_method'))
 app.set('views',path.join(__dirname,'views'))
@@ -50,6 +57,9 @@ app.use((req,res,next)=>{
 }) 
 app.use('/recipe',recipeRoute)
 app.use('/',reviewRoute)
+app.get('/register',(req,res)=>{ 
+    res.render('User/register')
+})
 app.get('/newRecipe',catchAsync(async(req,res)=>{ 
   const recipe =   new Recipe({ 
         title: 'Spaghetti Bolognese',
@@ -60,6 +70,7 @@ app.get('/newRecipe',catchAsync(async(req,res)=>{
           await recipe.save() 
           res.send(recipe)
 })) 
+
 app.all('*',(req,res,next)=>{ 
     next(new ExpressError(404,"Not Found"))  
 })

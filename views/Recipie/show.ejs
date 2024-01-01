@@ -10,19 +10,25 @@
             </div>
             <ul class="list-group list-group-flush">
               <li class="list-group-item"><h5> Ingredients : </h5> <%=recipie.ingredients%> </li>
-              <li class="list-group-item"> <h5> Instructions :</h5> <%=recipie.instructions%></li>
-              
+             
+             </ul>
+            <ul class="list-group list-group-flush"> 
+            <li class="text-muted list-group-item">Submitted By : <%=recipie.author.username%> </li>
             </ul>
             <div class="card-body">
                 <a href="/recipe" class="btn btn-success">All recipes</a>
+                <%if(currentUser && recipie.author.equals(currentUser)){%> 
                 <a href="/recipe/<%=recipie._id%>/edit" class="btn  btn-warning">Edit recipe</a>
           
                 <form action="/recipe/<%=recipie._id%>?_method=DELETE"  class="d-inline" method="POST"><button class="btn btn-danger">Delete</button> </form> 
-            </div>
+                <%}%> 
+              </div>
           </div>
            
     </div>
+    <%if(currentUser){%> 
     <div class="col-6">
+
       <h2>Leave a review</h2>
           <form action="/recipe/<%=recipie._id%>/reviews" class="validated-form was-validated novalidate" method="POST">
             <div class="mb-3">
@@ -41,19 +47,24 @@
            
           <% for (let review of recipie.reviews){ %> 
             <div class="card mb-3">
-            <div class="card-body ">
+              <div class="card-title">
+                Reviewer: <%=review.author.username%>
+              </div>
+              <div class="card-body ">
              
             <p>Rating: <%=review.rating%> </p>
 
               
             <p>Review : <%=review.body%> </p>
+            <% if(currentUser && review.author.equals(currentUser._id)){%>
             <form action="/recipe/<%=recipie._id%>/reviews/<%=review._id%>?_method=DELETE" method="POST">
               <button>Delete</button>
             </form>
-
+            <%}%>
           </div>
         </div>
 
           <%}%>
     </div>
+    <%}%>     
 </div>

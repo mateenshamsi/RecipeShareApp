@@ -21,7 +21,11 @@ const recipeSchema = new mongoose.Schema({
     reviews:[{ 
         type:mongoose.Schema.Types.ObjectId , 
         ref: 'Review'
-    }]
+    }],
+    author:{ 
+        type:mongoose.Schema.Types.ObjectId ,
+        ref:'User' 
+    }
 })
 recipeSchema.post('findOneAndDelete',async(doc)=>{ 
     if(doc){ 

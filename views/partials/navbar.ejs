@@ -4,15 +4,27 @@
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse d-flex" id="navbarSupportedContent">
-        
+      <div class="collapse navbar-collapse " id="navbarNav">
+          <div class="navbar-nav"> 
             <a class="nav-link mx-3"  aria-current="page" href="/recipe">Recipes</a>
           
             <a class="nav-link" href="/recipe/new">Add Recipe</a>
-          
-          
+          </div>
+      </div>
+      
+          <div class="navbar-nav ml-auto"> 
+            <%if(!currentUser){%>
+    
+            <a class="nav-link m-3" href="/login">Login</a>
+            <a class="nav-link m-3" href="/register">Register</a>
+            <%}else{%> 
+    
+            <a class="nav-link m-3" href="/logout">Logout</a>
+             <%}%> 
+          </div>
            
          
       </div>
+     
     </div>
   </nav>

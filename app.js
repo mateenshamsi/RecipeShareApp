@@ -50,16 +50,15 @@ app.get('/',(req,res)=>{
     res.render("home")
 })
 app.use((req,res,next)=>{ 
-    res.locals.success = req.flash('success')
+    res.locals.currentUser = req.user 
+   res.locals.success = req.flash('success')
     res.locals.error = req.flash('error')
     
     next()
 }) 
 app.use('/recipe',recipeRoute)
 app.use('/',reviewRoute)
-app.get('/register',(req,res)=>{ 
-    res.render('User/register')
-})
+app.use('/',userRoute)
 app.get('/newRecipe',catchAsync(async(req,res)=>{ 
   const recipe =   new Recipe({ 
         title: 'Spaghetti Bolognese',

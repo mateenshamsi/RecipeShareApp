@@ -11,10 +11,11 @@ module.exports.createNewRecipe = catchAsync(async(req,res)=>{
 module.exports.createdNewRecipe = catchAsync(async(req,res,next)=>{
     if(!req.body.recipe) throw new ExpressError(404,"Not valid")
      const recipe = new Recipe(req.body.recipe)
-    recipe.image = req.files.map(f=>({url:f.path,filename:f.name}))
+    recipe.image = req.files.map(f=>({url:f.path,filename:f.filename}))
      recipe.author = req.user 
-       await recipe.save()
-       console.log(recipe)
+     console.log(recipe) 
+     await recipe.save()
+      
        req.flash('success','Successfully made a new recipe')
        res.redirect(`/recipe/${recipe._id}`)      
 
@@ -28,7 +29,7 @@ module.exports.showRecipe =catchAsync(async(req,res)=>{
             strictPopulate:false
         }
     }).populate('author')
-    console.log(recipie)
+
     if(!recipie)
     { 
         req.flash('error','Can not find Recipie') 
@@ -40,11 +41,7 @@ module.exports.showRecipe =catchAsync(async(req,res)=>{
 module.exports.renderEditForm = catchAsync(async(req,res)=>{ 
     const {id} = req.params 
     const recipie = await Recipe.findById(id)
-    if(recipie.author!==req.user._id)
-    { 
-        req.flash('error','You cant do this')
-        return res.redirect(`/recipe/${recipie._id}`) 
-    }
+ 
     const recipe = await Recipe.findById(id)
     
     
@@ -53,8 +50,9 @@ module.exports.renderEditForm = catchAsync(async(req,res)=>{
 module.exports.editRecipe = catchAsync(async(req,res)=>{ 
     const {id} = req.params 
     const recipie = await Recipe.findById(id) 
-    
-       
+    const img = req.files.map(f=>({url:f.path,filename:f.filename}))
+    recipie.image.push(...img)
+    await recipie.save()      
    const recipe =await  Recipe.findByIdAndUpdate(id,{...req.body.recipe})
    req.flash('success',`Successfully edited  ${recipe.title} recipe`)
    if(!recipie)

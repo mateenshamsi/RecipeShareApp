@@ -17,6 +17,6 @@ route.post('/',isLoggedIn,upload.array('image'),createdNewRecipe)
 route.get('/:id',showRecipe) 
 route.get('/:id/edit',isLoggedIn,renderEditForm) 
  
-route.put('/:id',isLoggedIn,editRecipe)
+route.put('/:id',isLoggedIn,upload.array('image'),editRecipe)
 route.delete('/:id',isLoggedIn,deleteRecipe) 
 module.exports = route 

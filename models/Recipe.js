@@ -13,7 +13,11 @@ const recipeSchema = new mongoose.Schema({
         type:String , 
         required:true 
     },
-    image: String ,
+    image: [{ 
+        url:String,
+        filename:String
+        
+    }] ,
     description:{
         type: String,
         required:true 

@@ -1,10 +1,12 @@
 <% layout('./layouts/boilerplate')%> 
-
+<link rel="stylesheet" href="/stylesheets/star.css">
 <div class="row mt-5" style="margin-left:5px;"> 
     <div class="col-6 "> 
         <div class="card" >
-            <img src="<%=recipie.image%>" class="card-img-top" alt="Image">
-            <div class="card-body">
+          <%for(let img of recipie.image){%> 
+            <img src="<%=img.url%>" class="card-img-top" alt="Image">
+          <%}%>   
+          <div class="card-body">
               <h5 class="card-title"><%=recipie.title%></h5>
               <p class="card-text"><%=recipie.description%></p>
             </div>
@@ -31,10 +33,23 @@
 
       <h2>Leave a review</h2>
           <form action="/recipe/<%=recipie._id%>/reviews" class="validated-form was-validated novalidate" method="POST">
-            <div class="mb-3">
-              <label for="rating">Rating : </label>
-              <input type="range" id="rating" min="1" max="5"  name="rating">
-            </div>
+            
+<fieldset class="starability-basic">
+  <legend>First rating:</legend>
+  <input type="radio" id="no-rate" class="input-no-rate" name="rating" value="0" checked aria-label="No rating." />
+  <input type="radio" id="first-rate1" name="rating" value="1" />
+  <label for="first-rate1" title="Terrible">1 star</label>
+  <input type="radio" id="first-rate2" name="rating" value="2" />
+  <label for="first-rate2" title="Not good">2 stars</label>
+  <input type="radio" id="first-rate3" name="rating" value="3" />
+  <label for="first-rate3" title="Average">3 stars</label>
+  <input type="radio" id="first-rate4" name="rating" value="4" />
+  <label for="first-rate4" title="Very good">4 stars</label>
+  <input type="radio" id="first-rate5" name="rating" value="5" />
+  <label for="first-rate5" title="Amazing">5 stars</label>
+</fieldset>
+
+
             <div> 
               <label for="body">Reviews</label>
               <br>
@@ -47,13 +62,16 @@
            
           <% for (let review of recipie.reviews){ %> 
             <div class="card mb-3">
-              <div class="card-title">
-                Reviewer: <%=review.author.username%>
-              </div>
+              
               <div class="card-body ">
+              <h5 ><%=review.author.username%></h5>
+               
+                <p class="starability-result" data-rating=<%=review.rating%>>
+                  Rated <%=review.rating%> 
+                </p>
+            
              
-            <p>Rating: <%=review.rating%> </p>
-
+           
               
             <p>Review : <%=review.body%> </p>
             <% if(currentUser && review.author.equals(currentUser._id)){%>

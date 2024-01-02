@@ -1,3 +1,7 @@
+if(process.env.NODE_ENV!=='production')
+{ 
+    require('dotenv').config()
+}
 const express = require('express')
 const mongoose = require('mongoose') 
 const ExpressError = require('./utils/ExpressError') 
@@ -11,6 +15,8 @@ const passport = require('passport')
 const LocalStrategy = require('passport-local')
 const session = require('express-session')
 const User = require('./models/User')
+const {storage} = require('./cloudinary')
+
 const userRoute = require('./routes/userRoute')
 mongoose.connect('mongodb://127.0.0.1:27017/Recipe')
  .then(()=>{ 

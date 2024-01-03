@@ -52,9 +52,7 @@ app.engine('ejs',engine)
 app.use(methodOverride('_method'))
 app.set('views',path.join(__dirname,'views'))
 app.use(express.static(path.join(__dirname,'public')))
-app.get('/',(req,res)=>{ 
-    res.render("home")
-})
+
 app.use((req,res,next)=>{ 
     res.locals.currentUser = req.user 
    res.locals.success = req.flash('success')
@@ -62,19 +60,13 @@ app.use((req,res,next)=>{
     
     next()
 }) 
+app.get('/',(req,res)=>{ 
+    res.render("home")
+})
 app.use('/recipe',recipeRoute)
 app.use('/',reviewRoute)
 app.use('/',userRoute)
-app.get('/newRecipe',catchAsync(async(req,res)=>{ 
-  const recipe =   new Recipe({ 
-        title: 'Spaghetti Bolognese',
-        ingredients: 'Ground beef, onion, garlic, tomato sauce, spaghetti',
-        instructions: '1. Cook spaghetti according to package instructions. 2. In a pan, brown ground beef with chopped onions and garlic. 3. Add tomato sauce and simmer. 4. Serve sauce over cooked spaghetti.',
-     
-          })
-          await recipe.save() 
-          res.send(recipe)
-})) 
+ 
 
 app.all('*',(req,res,next)=>{ 
     next(new ExpressError(404,"Not Found"))  

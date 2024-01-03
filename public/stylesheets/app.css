@@ -16,9 +16,21 @@ body{
 .nav a{
     text-decoration: none; 
     margin-right:50px ;
-    font-size:30px ;    
+    font-size:20px ;    
     color:white;  
 }
-.text{ 
-    margin-bottom:355px;
+.nav a:hover{ 
+    border-bottom-color:rgba(255,255, 255, 0.8) ;
+}
+.para{ 
+    display: flex;
+    flex-direction: column;
+    margin-top:200px ; 
+}
+.para a{ 
+    color:white ; 
+    margin-bottom:350px;
+    border-radius:50% ; 
+    
+    font-size: 20px;
 }

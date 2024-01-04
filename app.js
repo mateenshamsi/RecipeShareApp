@@ -38,9 +38,10 @@ mongoose.connect(db_url)
 const methodOverride = require('method-override')
 const app = express()
 const engine =  require('ejs-mate')
+const secret = process.env.SECRET||"thisisasecret"
 const sessionConfig = { 
     store,
-    secret:"thisisasecret",
+    secret,
     resave:false,
     saveUninitialized:true,
     cookie:{ 

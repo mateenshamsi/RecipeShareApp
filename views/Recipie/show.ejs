@@ -75,12 +75,12 @@
            
               
             <p>Review : <%=review.body%> </p>
-            <%if(currentUser&&recipie.author.equals(currentUser) ){%> 
+            <%if(currentUser&&review.author.equals(currentUser) ){%> 
             
             <form action="/recipe/<%=recipie._id%>/reviews/<%=review._id%>?_method=DELETE" method="POST">
               <button>Delete</button>
             </form>
-            <%}%> 
+            <%}%>
           </div>
         </div>
 

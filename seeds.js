@@ -48,7 +48,7 @@ const Recipe = require('./models/Recipe')
     },
     {
       title: 'Chocolate Chip Cookies',
-      ingredients: 'All-purpose flour, baking soda, butter, white sugar, brown sugar, eggs, vanilla extract, chocolate chips',
+    redients: 'All-purpose flour, baking soda, butter, white sugar, brown sugar, eggs, vanilla extract, chocolate chips',
       instructions: '1. Preheat oven to 350°F (175°C). 2. Cream together butter, white sugar, and brown sugar. 3. Beat in eggs and vanilla extract. 4. Combine flour and baking soda, then add to the mixture. 5. Stir in chocolate chips. 6. Drop rounded tablespoons onto ungreased baking sheets. 7. Bake for 10-12 minutes or until edges are golden. 8. Cool on wire racks.',
       image:"https://media.istockphoto.com/id/1805531317/photo/christmas-nut-balls.jpg?s=612x612&w=is&k=20&c=-RFx59fRMYSXTPdprBaa7-cx4xmNOK4FVw5CSmwP6EY=",
       description:"Spaghetti Bolognese is a classic Italian pasta dish known for its rich and savory meat sauce. The sauce typically features ground beef, finely chopped onions, and minced garlic cooked in olive oil. Tomato sauce, diced tomatoes, and a blend of herbs such as oregano and basil are added to create a flavorful and hearty sauce.",

@@ -17,7 +17,7 @@ const passport = require('passport')
 const LocalStrategy = require('passport-local')
 const session = require('express-session')
 const User = require('./models/User')
-const {storage} = require('./cloudinary')
+
 const MongoStore = require('connect-mongo');
 const store = MongoStore.create({
     mongoUrl: db_url,

@@ -2,13 +2,14 @@ if(process.env.NODE_ENV!=='production')
 { 
     require('dotenv').config()
 }
-const db_url = process.env.URL
+const db_url = process.env.URL ||"mongodb://127.0.0.1:27017/Recipe"
 const express = require('express')
 const mongoose = require('mongoose') 
 const ExpressError = require('./utils/ExpressError') 
 const catchAsync = require('./utils/catchAsync')
 const reviewRoute = require('./routes/reviewRoute') 
 const recipeRoute = require('./routes/recipeRoute')
+const userRoute = require('./routes/userRoute')
 const Recipe = require('./models/Recipe')
 const Review  = require('./models/Review')
 const flash = require('connect-flash')
@@ -17,9 +18,16 @@ const LocalStrategy = require('passport-local')
 const session = require('express-session')
 const User = require('./models/User')
 const {storage} = require('./cloudinary')
+const MongoStore = require('connect-mongo');
+const store = MongoStore.create({
+    mongoUrl: db_url,
+    touchAfter: 24 * 60 * 60,
+    crypto: {
+        secret: 'thisisasecret'
+    }
+});
 
-const userRoute = require('./routes/userRoute')
-// mongodb://127.0.0.1:27017/Recipe
+
 mongoose.connect(db_url)
  .then(()=>{ 
     console.log("Mongo Connected")
@@ -31,6 +39,7 @@ const methodOverride = require('method-override')
 const app = express()
 const engine =  require('ejs-mate')
 const sessionConfig = { 
+    store,
     secret:"thisisasecret",
     resave:false,
     saveUninitialized:true,
@@ -78,7 +87,7 @@ app.use((error,req,res,next)=>{
 
     res.render('error',{error})
 })
-
-app.listen(3000,()=>{ 
-    console.log("listening on port 3000")
+const port =3000||process.env.PORT 
+app.listen(port,()=>{ 
+    console.log("listening on port ")
 })

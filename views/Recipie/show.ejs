@@ -14,12 +14,13 @@
               <li class="list-group-item"><h5> Ingredients : </h5> <%=recipie.ingredients%> </li>
              
              </ul>
-            <ul class="list-group list-group-flush"> 
-            <li class="text-muted list-group-item">Submitted By : <%=recipie.author.username%> </li>
-            </ul>
-            <div class="card-body">
+             <ul class="list-group list-group-flush">
+              <li class="list-group-item"><h5> Submitted By </h5> <%=recipie.author.username%> </li>
+             
+             </ul>
+            <div class="card-body"> 
                 <a href="/recipe" class="btn btn-success">All recipes</a>
-                <%if(currentUser && recipie.author.equals(currentUser)){%> 
+                <%if(currentUser&&recipie.author.equals(currentUser) ){%> 
                 <a href="/recipe/<%=recipie._id%>/edit" class="btn  btn-warning">Edit recipe</a>
           
                 <form action="/recipe/<%=recipie._id%>?_method=DELETE"  class="d-inline" method="POST"><button class="btn btn-danger">Delete</button> </form> 
@@ -74,11 +75,12 @@
            
               
             <p>Review : <%=review.body%> </p>
-            <% if(currentUser && review.author.equals(currentUser._id)){%>
+            <%if(currentUser&&recipie.author.equals(currentUser) ){%> 
+            
             <form action="/recipe/<%=recipie._id%>/reviews/<%=review._id%>?_method=DELETE" method="POST">
               <button>Delete</button>
             </form>
-            <%}%>
+            <%}%> 
           </div>
         </div>
 

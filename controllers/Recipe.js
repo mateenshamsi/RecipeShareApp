@@ -12,7 +12,7 @@ module.exports.createdNewRecipe = catchAsync(async(req,res,next)=>{
     if(!req.body.recipe) throw new ExpressError(404,"Not valid")
      const recipe = new Recipe(req.body.recipe)
     recipe.image = req.files.map(f=>({url:f.path,filename:f.filename}))
-     
+    recipe.author = req.user._id;
      await recipe.save()
       
        req.flash('success','Successfully made a new recipe')
